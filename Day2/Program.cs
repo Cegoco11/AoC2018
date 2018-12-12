@@ -10,7 +10,7 @@ namespace Day2 {
         static void Main(string[] args) {
             DateTime dt = DateTime.Now;
 
-            //FirstPart();
+            FirstPart();
             SecondPart();
 
             DateTime dt2 = DateTime.Now;
@@ -66,9 +66,7 @@ namespace Day2 {
 
             }
 
-            Console.WriteLine("CheckSum " + total_cont2 * total_cont3);
-
-            Console.ReadKey();
+            Console.WriteLine("FirstPart " + total_cont2 * total_cont3);
         }
 
         static void SecondPart() {
@@ -106,7 +104,7 @@ namespace Day2 {
                 }
             }
 
-            Console.WriteLine(resultado);
+            Console.WriteLine("SecondPart" + resultado);
 
         }
 
