@@ -8,8 +8,17 @@ using System.Threading.Tasks;
 namespace Day1 {
     class Program {
         static void Main(string[] args) {
-            //FirstPart();
+            DateTime dt = DateTime.Now;
+
+            FirstPart();
             SecondPart();
+
+            DateTime dt2 = DateTime.Now;
+
+            Console.WriteLine();
+            Console.WriteLine("Time " + dt2.Subtract(dt).TotalSeconds);
+
+            Console.ReadKey();
         }
 
         static void FirstPart() {
@@ -21,9 +30,8 @@ namespace Day1 {
                 total += int.Parse(line);
             }
 
-            Console.WriteLine("Total: " + total);
+            Console.WriteLine("FirstPart " + total);
 
-            Console.ReadKey();
         }
 
         static void SecondPart() {
@@ -31,11 +39,9 @@ namespace Day1 {
             List<int> linesInt = lines.Select(x => int.Parse(x)).ToList();
 
             int aux = 0;
-            List<int> resultados = new List<int>();
+            HashSet<int> resultados = new HashSet<int>();
 
             bool condition = true;
-
-            DateTime dt = DateTime.Now;
 
             while (condition) {
 
@@ -52,12 +58,7 @@ namespace Day1 {
 
             }
 
-            DateTime dt2 = DateTime.Now;
-            Console.WriteLine(dt2.Subtract(dt).TotalSeconds);
-
-            Console.WriteLine("Frequency  " + aux);
-
-            Console.ReadKey();
+            Console.WriteLine("SecondPart  " + aux);
 
         }
 
