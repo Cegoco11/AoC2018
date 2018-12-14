@@ -24,7 +24,7 @@ namespace Day3 {
             string[] lines = System.IO.File.ReadAllLines("..\\..\\datos.txt");
             string[] datos;
 
-            Dictionary<string, int[]> magic = new Dictionary<string, int[]>();
+            Dictionary<string, List<int>> magic = new Dictionary<string, List<int>>();
 
             foreach (string line in lines) {
 
@@ -43,7 +43,7 @@ namespace Day3 {
             string[] lines = System.IO.File.ReadAllLines("..\\..\\datos.txt");
             string[] datos;
 
-            Dictionary<string, int[]> magic = new Dictionary<string, int[]>();
+            Dictionary<string, List<int>> magic = new Dictionary<string, List<int>>();
             int lineasFichero = 1;
 
             foreach (string line in lines) {
@@ -55,26 +55,35 @@ namespace Day3 {
 
             }
 
-            // TODO Se necesita agregar una lista en vez de una tupla para saber todas las ids de las figuras que convergen en un punto
+            HashSet<int> idsFigurasSolapacion = buscaIdsFigurasConSolapacion(magic);
 
-            HashSet<int> idsFigurasSolapacion = new HashSet<int>();
+            int result = 0;
             foreach (var entry in magic) {
-                if (entry.Value[0] > 0) {
-                    idsFigurasSolapacion.Add(entry.Value[1]);
+                for (int i = 1; i < entry.Value.Count(); i++) {
+                    if (!idsFigurasSolapacion.Contains(entry.Value[i])) {
+                        result = entry.Value[i];
+                    }
                 }
             }
 
-            foreach (var entry in magic) {
-                if (!idsFigurasSolapacion.Contains(entry.Value[1])) {
-                    Console.WriteLine(entry.Value[1]);
-                }
-            }
-
-            Console.WriteLine("SecondPart ");
+            Console.WriteLine("SecondPart " + result);
         }
 
-        private static Dictionary<string, int[]> generateCoor(string[] m, Dictionary<string, int[]> dict) {
-            Dictionary<string, int[]> aux = dict;
+        private static HashSet<int> buscaIdsFigurasConSolapacion(Dictionary<string, List<int>> magic) {
+            HashSet<int> aux = new HashSet<int>();
+            foreach (var entry in magic) {
+                if (entry.Value[0] > 0) {
+                    for (int i = 1; i < entry.Value.Count; i++) {
+                        aux.Add(entry.Value[i]);
+                    }
+                }
+            }
+
+            return aux;
+        }
+
+        private static Dictionary<string, List<int>> generateCoor(string[] m, Dictionary<string, List<int>> dict) {
+            Dictionary<string, List<int>> aux = dict;
 
             int id = int.Parse(m[0].Substring(1));
             int a = int.Parse(m[1]);
@@ -82,15 +91,20 @@ namespace Day3 {
             int c = int.Parse(m[3]);
             int d = int.Parse(m[4]);
 
+            List<int> listaAux = new List<int>();
+
             for (int coorX = a; coorX < a + c; coorX++) {
 
                 for (int coorY = b; coorY < b + d; coorY++) {
 
-                    if (dict.TryGetValue(string.Concat(coorX, ":", coorY), out int[] value)) {
+                    if (dict.TryGetValue(string.Concat(coorX, ":", coorY), out List<int> value)) {
                         dict[string.Concat(coorX, ":", coorY)][0] = value[0] + 1;
+                        aux[string.Concat(coorX, ":", coorY)].Add(id);
                     } else {
-                        int[] tupla = new int[] { 0, id };
-                        aux.Add(string.Concat(coorX, ":", coorY), tupla);
+                        listaAux = new List<int>();
+                        listaAux.Add(0);
+                        listaAux.Add(id);
+                        aux.Add(string.Concat(coorX, ":", coorY), listaAux);
                     }
 
                 }
